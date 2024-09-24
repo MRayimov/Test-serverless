@@ -1,9 +1,20 @@
 import express from "express";
+import serverless from "serverless-http";
+export const app = express();
 
-const app = express();
+app.use(express.json());
+const db = [];
 
-app.get("/", (req, res) => {
-  res.send("Welcome to the server!");
+app.post("/todo", (req, res) => {
+  const newTodo = {
+    id: Date(),
+    text: req.body.text,
+  };
+
+  db.push(newTodo);
+  res.json(newTodo);
 });
 
-export default app;
+app.get("/todo", (req, res) => {
+  res.json(db);
+});
